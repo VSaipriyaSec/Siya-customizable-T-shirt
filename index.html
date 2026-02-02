@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIYA Customized T-Shirt Printing</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        header.hero {
+            background-color: #f5f5f5;
+            text-align: center;
+            padding: 50px 20px;
+        }
+
+        nav {
+            background-color: #333;
+            text-align: center;
+            padding: 10px 0;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: bold;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        section {
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        .gallery {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .product {
+            border: 1px solid #ddd;
+            padding: 15px;
+            width: 250px;
+            box-shadow: 2px 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .product img {
+            width: 100%;
+            height: auto;
+        }
+
+        table {
+            margin: 0 auto;
+            border-collapse: collapse;
+            width: 80%;
+        }
+
+        table, th, td {
+            border: 1px solid #333;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: center;
+        }
+
+        form input, form select, form button {
+            display: block;
+            width: 80%;
+            margin: 10px auto;
+            padding: 10px;
+        }
+
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 15px;
+        }
+
+        button {
+            background-color: #ff6600;
+            border: none;
+            color: white;
+            cursor: pointer;
+            padding: 10px 15px;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background-color: #e65c00;
+        }
+    </style>
+</head>
+
+<body>
+
+<header class="hero">
+    <h1>SIYA</h1>
+    <h2>Customized T-Shirt Printing</h2>
+    <p>Print Your Style. Wear Your Story.</p>
+</header>
+
+<nav>
+    <a href="#gallery">Gallery</a>
+    <a href="#prices">Prices</a>
+    <a href="#order">Order</a>
+    <a href="#cart">Cart</a>
+</nav>
+
+<!-- GALLERY -->
+<section id="gallery">
+    <h2>T-Shirt Gallery</h2>
+    <div class="gallery">
+        <div class="product">
+            <img src="https://m.media-amazon.com/images/I/61gLo0oiHhL._AC_UY1100_.jpg" alt="SIYA Classic T-shirt">
+            <h3>Classic Print</h3>
+            <p>₹399</p>
+            <button onclick="addToCart('Classic Print',399)">Add to Cart</button>
+        </div>
+
+        <div class="product">
+            <img src="https://www.knitroot.com/wp-content/uploads/2020/10/27.webp" alt="SIYA Photo T-shirt">
+            <h3>Photo Print</h3>
+            <p>₹499</p>
+            <button onclick="addToCart('Photo Print',499)">Add to Cart</button>
+        </div>
+
+        <div class="product">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSd4pQ0LZSBzpoBdyDNt8xynONWi0nQcrZIZA&s" alt="SIYA Logo T-shirt">
+            <h3>Logo Print</h3>
+            <p>₹349</p>
+            <button onclick="addToCart('Logo Print',349)">Add to Cart</button>
+        </div>
+    </div>
+</section>
+
+<!-- PRICE LIST -->
+<section id="prices">
+    <h2>Price List</h2>
+    <table>
+        <tr><th>Type</th><th>Price</th></tr>
+        <tr><td>Name Print</td><td>₹299</td></tr>
+        <tr><td>Photo Print</td><td>₹499</td></tr>
+        <tr><td>Logo Print</td><td>₹349</td></tr>
+        <tr><td>Bulk Order</td><td>Contact Us</td></tr>
+    </table>
+</section>
+
+<!-- ORDER FORM -->
+<section id="order">
+    <h2>Place Order</h2>
+    <form onsubmit="placeOrder(event)">
+        <input type="text" placeholder="Your Name" required>
+        <input type="tel" placeholder="Phone Number" required>
+
+        <select required>
+            <option value="">Select Size</option>
+            <option>S</option>
+            <option>M</option>
+            <option>L</option>
+            <option>XL</option>
+        </select>
+
+        <select required>
+            <option value="">Select Color</option>
+            <option>Black</option>
+            <option>White</option>
+            <option>Red</option>
+            <option>Blue</option>
+        </select>
+
+        <label>Upload Your Design:</label>
+        <input type="file" id="designFile" accept="image/*">
+        <button type="submit">Submit Order</button>
+    </form>
+</section>
+
+<!-- CART -->
+<section id="cart">
+    <h2>Your Cart</h2>
+    <ul id="cartItems"></ul>
+    <p><b>Total: ₹<span id="total">0</span></b></p>
+    <button onclick="checkout()">Checkout on WhatsApp</button>
+</section>
+
+<footer>
+    <p>© 2026 SIYA Customized T-Shirt Printing</p>
+</footer>
+
+<script src="script.js"></script>
+<script>
+    // Cart functionality
+    let cart = [];
+    let total = 0;
+
+    function addToCart(name, price) {
+        cart.push({name, price});
+        total += price;
+
+        const cartItems = document.getElementById("cartItems");
+        const li = document.createElement("li");
+        li.textContent = `${name} - ₹${price}`;
+        cartItems.appendChild(li);
+
+        document.getElementById("total").textContent = total;
+    }
+
+    function checkout() {
+        if(cart.length === 0) {
+            alert("Your cart is empty!");
+            return;
+        }
+        let message = "Hello! I want to place an order:\n";
+        cart.forEach(item => {
+            message += `${item.name} - ₹${item.price}\n`;
+        });
+        message += `Total: ₹${total}`;
+        window.open(`https://wa.me/?text=${encodeURIComponent(message)}`);
+    }
+
+    function placeOrder(event) {
+        event.preventDefault();
+        alert("Order submitted! We will contact you soon.");
+        document.querySelector("form").reset();
+    }
+</script>
+
+</body>
+</html>
